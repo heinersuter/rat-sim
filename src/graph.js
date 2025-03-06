@@ -21,9 +21,9 @@ class Graph {
       Object.assign(rat, node); // Copy properties from node to rat
       
       rat.processRatOneWeek();
-      this.nodes.update({ id: rat.id, label: rat.label, age: rat.age });
+      this.nodes.update({ id: rat.id, label: rat.label, age: rat.age, pregnacyWeek: rat.pregnacyWeek });
 
-      if (rat.sex === "f") {
+      if (rat.pregnacyWeek === Rat.PREGNANCY_DURATION) {
         for (let i = 0; i < Rat.CHILD_NODES_COUNT; i++) {
           const newRatId = this.nodes.length + 1;
           this.nodes.add(new Rat(newRatId));
