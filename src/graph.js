@@ -2,6 +2,7 @@ class Graph {
   constructor() {
     this.nodes = new vis.DataSet([new Rat(1), new Rat(2)]);
     this.edges = new vis.DataSet([]);
+    this.weekCount = 0;
   }
 
   getGraphData() {
@@ -11,16 +12,22 @@ class Graph {
     };
   }
 
-  processOneWeek() {
-    this.nodes.get().forEach((node) => {
-      node.processOneWeek();
-      this.nodes.update({ id: node.id, label: node.label });
+  processGraphOneWeek() {
+    this.weekCount++;
 
-      if (node.sex === "f") {
+    let nodes = this.nodes.get();
+    nodes.forEach((node) => {
+      let rat = new Rat(node.id);
+      Object.assign(rat, node); // Copy properties from node to rat
+      
+      rat.processRatOneWeek();
+      this.nodes.update({ id: rat.id, label: rat.label, age: rat.age });
+
+      if (rat.sex === "f") {
         for (let i = 0; i < Rat.CHILD_NODES_COUNT; i++) {
           const newRatId = this.nodes.length + 1;
           this.nodes.add(new Rat(newRatId));
-          this.edges.add({ from: node.id, to: newRatId });
+          this.edges.add({ from: rat.id, to: newRatId });
         }
       }
     });

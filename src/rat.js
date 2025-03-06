@@ -12,7 +12,7 @@
     this.recreateLabel();
   }
 
-  processOneWeek() {
+  processRatOneWeek() {
     this.age++;
 
     if (this.age > Rat.MIN_AGE_FOR_PREGNANCY && this.pregancyWeek === 0) {
@@ -27,6 +27,6 @@
   }
 
   recreateLabel() {
-    this.label = `Ratte ${this.id}\nAlter: ${this.age}`;
+    this.label = `Ratte ${this.id} (${this.sex})\nAlter: ${this.age}`;
   }
 }

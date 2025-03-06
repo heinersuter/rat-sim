@@ -11,33 +11,39 @@
     <script src="rat.js"></script>
   </head>
   <body>
-    <h1>Ratten: <span id="population-count"></span></h1>
+    <h1>
+      Ratten: <span id="population-count"></span> | Wochen:
+      <span id="week-count"></span>
+    </h1>
     <div id="container" style="width: 100%; height: 800px"></div>
     <button onclick="processOneWeek()">Eine Woche</button>
 
     <script>
       const graph = new Graph();
       const container = document.getElementById("container");
-      const network = new vis.Network(container, graph.getGraphData(), {});
-      document.getElementById("population-count").textContent =
-        graph.nodes.length;
-      network.clusterByHubsize(); // Cluster nodes by hub size to reduce the number of elements
+      const options = {
+        layout: {
+          improvedLayout: true, // Use improved layout algorithm
+          randomSeed: 2, // Use a fixed seed for consistent layout
+        },
+        physics: {
+          enabled: true,
+          solver: "forceAtlas2Based",
+        },
+      };
+      const network = new vis.Network(container, graph.getGraphData(), options);
       reLayout();
 
       function processOneWeek() {
-        graph.processOneWeek();
-        document.getElementById("population-count").textContent =
-          graph.nodes.length;
+        network.stopSimulation();
+        graph.processGraphOneWeek();
+        network.startSimulation();
         reLayout();
       }
 
       function reLayout() {
-        network.setOptions({
-          layout: {
-            improvedLayout: true, // Use improved layout algorithm
-            randomSeed: 2, // Use a fixed seed for consistent layout
-          },
-        });
+        document.getElementById("population-count").textContent = graph.nodes.length;
+        document.getElementById("week-count").textContent = graph.weekCount;
         network.fit(); // Resize the graph to fit the container
       }
     </script>
