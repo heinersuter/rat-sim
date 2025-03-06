@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Rat Sim 1.0</title>
+    <script
+      type="text/javascript"
+      src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"
+    ></script>
+    <script src="graph.js"></script>
+    <script src="rat.js"></script>
+  </head>
+  <body>
+    <h1>Ratten: <span id="population-count"></span></h1>
+    <div id="container" style="width: 100%; height: 800px"></div>
+    <button onclick="processOneWeek()">Eine Woche</button>
+
+    <script>
+      const graph = new Graph();
+      const container = document.getElementById("container");
+      const network = new vis.Network(container, graph.getGraphData(), {});
+      document.getElementById("population-count").textContent =
+        graph.nodes.length;
+      network.clusterByHubsize(); // Cluster nodes by hub size to reduce the number of elements
+      reLayout();
+
+      function processOneWeek() {
+        graph.processOneWeek();
+        document.getElementById("population-count").textContent =
+          graph.nodes.length;
+        reLayout();
+      }
+
+      function reLayout() {
+        network.setOptions({
+          layout: {
+            improvedLayout: true, // Use improved layout algorithm
+            randomSeed: 2, // Use a fixed seed for consistent layout
+          },
+        });
+        network.fit(); // Resize the graph to fit the container
+      }
+    </script>
+  </body>
+</html>
