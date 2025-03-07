@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Ratten Simulator 1.0</title>
+    <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+    <script src="simulation/population.js"></script>
+    <script src="simulation/ratte.js"></script>
+    <script src="darstellung/graph.js"></script>
+  </head>
+  <body>
+    <h1>
+      <span>Ratten: <span id="anzahl-ratten"></span></span><span> | Wochen: <span id="week-count"></span></span>
+    </h1>
+    <div id="darstellung" style="width: 100%; height: 1024px"></div>
+    <button onclick="eineWocheVergeht()">Eine Woche</button>
+
+    <script>
+      const population = new Population();
+      eineWocheVergeht();
+      
+      function eineWocheVergeht() {
+        population.eineWocheVergeht();
+        const divTag = document.getElementById("darstellung");
+        new vis.Network(divTag, Graph.getData(population), Graph.getOptions());
+
+        document.getElementById("anzahl-ratten").textContent = population.ratten.length.toString();
+        document.getElementById("week-count").textContent = population.wochen;
+      }
+    </script>
+  </body>
+</html>
