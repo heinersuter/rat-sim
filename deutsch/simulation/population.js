@@ -2,8 +2,8 @@ class Population {
   constructor() {
     this.ratten = [];
     this.wochen = 0;
-    new Ratte(this, null);
-    new Ratte(this, null);
+    new Ratte(this);
+    new Ratte(this);
   }
   
   eineWocheVergeht(){

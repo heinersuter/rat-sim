@@ -7,8 +7,8 @@ class Graph {
     // define edges by rats that have children
     const edges = population.ratten
       .filter((ratte) => ratte.junge.length > 0)
-      .map((ratte) => {
-        return { from: ratte.nummer, to: ratte.junge[0].nummer }; // TODO: multiple children
+      .flatMap((ratte) => {
+        return ratte.junge.map(junges => {return { from: ratte.nummer, to: junges.nummer }});
       });
 
     return {

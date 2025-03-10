@@ -27,7 +27,7 @@
 
   jungeBekommen() {
     for (let i = 0; i < WURF_GROESSE; i++) {
-      this.junge.push(this.population, this);
+      this.junge.push(new Ratte(this.population));
     }
   }
   
